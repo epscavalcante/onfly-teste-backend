@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    container_name: onfly-teste-backend
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8000:8000"
