@@ -17,7 +17,7 @@ jobs:
     - name: Generate App key
       run: php artisan key:generate
     - name: Generate JWT secret key
-      run: php artisan jwt:scecret
+      run: php artisan jwt:secret
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
 #    - name: Execute lint via Pint
