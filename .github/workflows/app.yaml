@@ -28,6 +28,11 @@ jobs:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
+      - name: Upload workspace
+        uses: actions/upload-artifact@v3
+        with:
+          name: workspace
+          path: ./
   #    - name: Execute lint via Pint
   #      run: vendor/bin/pint --test
   #    - name: Execute Unit tests
@@ -38,8 +43,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Download workspace
+        uses: actions/download-artifact@v3
+        with:
+          name: workspace
+          path: ./
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '8.4'
