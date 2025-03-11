@@ -3,8 +3,8 @@ name: App
 on: [push]
 
 jobs:
-  build:
-    name: Build application
+  setup:
+    name: Build and Runs tests
     runs-on: ubuntu-latest
     steps:
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
@@ -21,40 +21,9 @@ jobs:
         run: php artisan jwt:secret
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-      - name: Upload workspace
-        uses: actions/upload-artifact@v3
-        with:
-          name: workspace
-          path: ./
-  #    - name: Execute lint via Pint
-  #      run: vendor/bin/pint --test
-  #    - name: Execute Unit tests
-  #      run: php artisan test --testsuite=Unit
-
-  qa:
-    name: 'QA - Tests'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download workspace
-        uses: actions/download-artifact@v3
-        with:
-          name: workspace
-          path: ./
-      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-        with:
-          php-version: '8.4'
-      - name: Restore dependencies
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#      - name: Execute lint via Pint
+#        run: vendor/bin/pint --test
       - name: Execute Unit tests
         run: php artisan test --testsuite=Unit
+      - name: Execute Feature tests
+        run: php artisan test --testsuite=Feature
