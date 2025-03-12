@@ -29,6 +29,12 @@ class FlightControllerTest extends TestCase
         $response->assertUnauthorized();
     }
 
+    public function test_get_flight_detail_returns_unauthorized_response(): void
+    {
+        $response = $this->getJson(route('flights.detail', 1));
+        $response->assertUnauthorized();
+    }
+
     public function test_request_flight_returns_unprocessable_entity_response(): void
     {
         $user = User::factory()->create();
@@ -48,11 +54,28 @@ class FlightControllerTest extends TestCase
         $response->assertNotFound();
     }
 
+    public function test_get_flight_detail_returns_not_found_response(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->getJson(route('flights.detail', 1));
+        $response->assertNotFound();
+    }
+
     public function test_approve_flight_returns_forbidden_response(): void
     {
         $user = User::factory()->create();
         $flight = Flight::factory()->for($user)->create();
         $response = $this->actingAs($user)->postJson(route('flights.approve', $flight->id));
+        $response->assertForbidden();
+    }
+
+    public function test_get_flight_detail_returns_forbidden_response(): void
+    {
+        $user = User::factory()->create();
+        $flight = Flight::factory()->for(
+            User::factory()
+        )->create();
+        $response = $this->actingAs($user)->getJson(route('flights.detail', $flight->id));
         $response->assertForbidden();
     }
 
@@ -113,5 +136,19 @@ class FlightControllerTest extends TestCase
         );
 
         $response->assertNoContent();
+    }
+
+    public function test_get_flight_detail_returns_successfull_response(): void
+    {
+        $user = User::factory()->create();
+        $flight = Flight::factory()->for(
+            factory: $user
+        )->requested()->create();
+
+        $response = $this->actingAs($user)
+            ->getJson(
+                uri: route('flights.detail', $flight->id),
+            );
+        $response->assertSuccessful();
     }
 }

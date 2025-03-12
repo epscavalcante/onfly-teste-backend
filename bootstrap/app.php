@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\CannotAccessFlightDetailException;
 use App\Exceptions\CannotApproveFlightException;
 use App\Exceptions\CannotCancelFlightException;
 use Illuminate\Foundation\Application;
@@ -28,6 +29,10 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->report(function (CannotCancelFlightException $e) {
+            abort(Response::HTTP_FORBIDDEN, $e->getMessage());
+        });
+
+        $exceptions->report(function (CannotAccessFlightDetailException $e) {
             abort(Response::HTTP_FORBIDDEN, $e->getMessage());
         });
     })->create();

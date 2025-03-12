@@ -6,9 +6,12 @@ use App\Actions\ApproveFlight\ApproveFlightAction;
 use App\Actions\ApproveFlight\ApproveFlightActionInput;
 use App\Actions\CancelFlight\CancelFlightAction;
 use App\Actions\CancelFlight\CancelFlightActionInput;
+use App\Actions\GetFlightDetail\GetFlightDetailAction;
+use App\Actions\GetFlightDetail\GetFlightDetailActionInput;
 use App\Actions\RequestFlight\RequestFlightAction;
 use App\Actions\RequestFlight\RequestFlightActionInput;
 use App\Http\Requests\StoreFlightRequest;
+use App\Http\Resources\GetFlightDetailResource;
 use App\Http\Resources\RequestFlightResource;
 use DateTime;
 use Illuminate\Http\Response;
@@ -59,4 +62,25 @@ class FlightController extends Controller
         CancelFlightAction::handle($cancelFlightInput);
 
         return response()->noContent();
-    }}
+    }
+
+    public function detail(int $flightId): GetFlightDetailResource
+    {
+        $flightDetailInput = new GetFlightDetailActionInput(
+            flightId: $flightId,
+            userId: Auth::id()
+        );
+
+        $flightDetailOutput = GetFlightDetailAction::handle($flightDetailInput);
+
+        return new GetFlightDetailResource(
+            flightId: $flightDetailOutput->flightId,
+            status: $flightDetailOutput->status,
+            destination: $flightDetailOutput->destination,
+            returnDate: $flightDetailOutput->returnDate,
+            departuneDate: $flightDetailOutput->departuneDate,
+            createdAt: $flightDetailOutput->createdAt,
+            updatedAt: $flightDetailOutput->updatedAt,
+        );
+    }
+}
