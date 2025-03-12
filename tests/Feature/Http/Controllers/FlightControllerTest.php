@@ -23,6 +23,12 @@ class FlightControllerTest extends TestCase
         $response->assertUnauthorized();
     }
 
+    public function test_cancel_flight_returns_unauthorized_response(): void
+    {
+        $response = $this->postJson(route('flights.cancel', 1));
+        $response->assertUnauthorized();
+    }
+
     public function test_request_flight_returns_unprocessable_entity_response(): void
     {
         $user = User::factory()->create();
@@ -48,6 +54,18 @@ class FlightControllerTest extends TestCase
         $flight = Flight::factory()->for($user)->create();
         $response = $this->actingAs($user)->postJson(route('flights.approve', $flight->id));
         $response->assertForbidden();
+    }
+
+    public function test_cancel_flight_returns_forbidden_response(): void
+    {
+        $user = User::factory()->create();
+        $flightApproved = Flight::factory()->for($user)->approved()->create();
+        $responseFlightApproved = $this->actingAs($user)->postJson(route('flights.cancel', $flightApproved->id));
+        $responseFlightApproved->assertForbidden();
+
+        $flightCancelled = Flight::factory()->for($user)->canceled()->create();
+        $responseFlightCancelle = $this->actingAs($user)->postJson(route('flights.cancel', $flightCancelled->id));
+        $responseFlightCancelle->assertForbidden();
     }
 
     public function test_request_flight_returns_successfull_response(): void
@@ -78,6 +96,20 @@ class FlightControllerTest extends TestCase
 
         $response = $this->actingAs($user)->postJson(
             uri: route('flights.approve', $flight->id),
+        );
+
+        $response->assertNoContent();
+    }
+
+    public function test_cancel_requested_flight_returns_successfull_response(): void
+    {
+        $user = User::factory()->create();
+        $flight = Flight::factory()->for(
+            factory: $user
+        )->requested()->create();
+
+        $response = $this->actingAs($user)->postJson(
+            uri: route('flights.cancel', $flight->id),
         );
 
         $response->assertNoContent();

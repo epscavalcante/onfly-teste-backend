@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\CannotApproveFlightException;
+use App\Exceptions\CannotCancelFlightException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,6 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->report(function (CannotApproveFlightException $e) {
+            abort(Response::HTTP_FORBIDDEN, $e->getMessage());
+        });
+
+        $exceptions->report(function (CannotCancelFlightException $e) {
             abort(Response::HTTP_FORBIDDEN, $e->getMessage());
         });
     })->create();
