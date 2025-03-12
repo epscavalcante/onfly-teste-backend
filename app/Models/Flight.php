@@ -44,6 +44,11 @@ class Flight extends Model
         return $this->status === FlightStatusEnum::CANCELED->value;
     }
 
+    public function isRequested(): bool
+    {
+        return $this->status === FlightStatusEnum::REQUESTED->value;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

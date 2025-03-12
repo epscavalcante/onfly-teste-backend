@@ -24,7 +24,23 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define(
             ability: 'approve-flight',
-            callback: fn(User $user, Flight $flight) => $user->id !== $flight->user_id
+            callback: fn(User $user, Flight $flight) => !$this->isFlightBelongsToUser($user, $flight)
         );
+
+        Gate::define(
+            ability: 'cancel-flight',
+            callback: function (User $user, Flight $flight) {
+                if ($flight->isRequested() && $this->isFlightBelongsToUser($user, $flight)) {
+                    return true;
+                }
+
+                return !$this->isFlightBelongsToUser($user, $flight);
+            }
+        );
+    }
+
+    private function isFlightBelongsToUser(User $user, Flight $flight): bool
+    {
+        return $user->id === $flight->user_id;
     }
 }

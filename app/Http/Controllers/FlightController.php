@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Actions\ApproveFlight\ApproveFlightAction;
 use App\Actions\ApproveFlight\ApproveFlightActionInput;
+use App\Actions\CancelFlight\CancelFlightAction;
+use App\Actions\CancelFlight\CancelFlightActionInput;
 use App\Actions\RequestFlight\RequestFlightAction;
 use App\Actions\RequestFlight\RequestFlightActionInput;
 use App\Http\Requests\StoreFlightRequest;
@@ -45,4 +47,16 @@ class FlightController extends Controller
 
         return response()->noContent();
     }
-}
+
+
+    public function cancel(int $flightId): Response
+    {
+        $cancelFlightInput = new CancelFlightActionInput(
+            flightId: $flightId,
+            userId: Auth::id()
+        );
+
+        CancelFlightAction::handle($cancelFlightInput);
+
+        return response()->noContent();
+    }}
