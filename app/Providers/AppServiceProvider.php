@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define(
+            ability: 'view-flight',
+            callback: fn(User $user, Flight $flight) => $this->isFlightBelongsToUser($user, $flight)
+        );
+
+        Gate::define(
             ability: 'approve-flight',
             callback: fn(User $user, Flight $flight) => !$this->isFlightBelongsToUser($user, $flight)
         );
