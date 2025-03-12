@@ -37,7 +37,15 @@ class FlightRequestedNotification extends Notification
     {
         return (new MailMessage)
             ->subject('✈️ Flight requested | OnFly')
-            ->greeting("Hello 👋, {$notifiable->name}!")
-            ->line('Write message here!!');
+            ->markdown(
+                view: 'mail.flight.requested',
+                data: [
+                    'userName' => $notifiable->name,
+                    'flightId' => $this->flight->id,
+                    'destination' => $this->flight->destination,
+                    'departuneDate' => $this->flight->departune_date,
+                    'returnDate' => $this->flight->return_date,
+                ]
+            );
     }
 }
