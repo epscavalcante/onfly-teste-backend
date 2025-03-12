@@ -22,6 +22,7 @@ class FlightControllerTest extends TestCase
         $response = $this->actingAs($user)->postJson(route('flights.store'));
         $response->assertUnprocessable();
         $response->assertInvalid([
+            'destination' => ['The destination field is required.'],
             'departune_date' => ['The departune date field is required.'],
             'return_date' => ['The return date field is required.'],
         ]);
@@ -38,6 +39,7 @@ class FlightControllerTest extends TestCase
         $response = $this->actingAs($user)->postJson(
             uri: route('flights.store'),
             data: [
+                'destination' => 'Belo Horizonte - MG',
                 'departune_date' => $departuneDate->format('Y-m-d H:i'),
                 'return_date' => $returnDate->format('Y-m-d H:i')
             ]

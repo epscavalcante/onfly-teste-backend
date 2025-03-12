@@ -23,6 +23,7 @@ class FlightFactory extends Factory
         return [
             'departune_date' => $departuneDate->format(\DateTime::ATOM),
             'return_date' => $departuneDate->add(new \DateInterval("P{$countDays}D"))->format(\DateTime::ATOM),
+            'destination' => $this->faker->city()
         ];
     }
 

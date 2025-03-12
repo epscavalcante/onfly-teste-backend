@@ -15,6 +15,7 @@ class FlightController extends Controller
     {
         $requestFlightInput = new RequestFlightActionInput(
             userId: Auth::id(),
+            destination: $request->validated('destination'),
             departuneDate: new DateTime($request->validated('departune_date')),
             returnDate: new DateTime($request->validated('return_date')),
         );
@@ -24,6 +25,7 @@ class FlightController extends Controller
         return new RequestFlightResource(
             flightId: $requestFlightOutput->id,
             status: $requestFlightOutput->status,
+            destination: $requestFlightOutput->destination,
             departuneDate: $requestFlightOutput->departuneDate,
             returnDate: $requestFlightOutput->returnDate
         );

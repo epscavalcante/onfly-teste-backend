@@ -10,6 +10,7 @@ use App\Exceptions\InvalidFlightDates;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -27,6 +28,7 @@ class RequestFlightActionTest extends TestCase
 
         $requestFlightInput = new RequestFlightActionInput(
             userId: 1,
+            destination: 'Belo Horizonte - MG',
             departuneDate: $departuneDate,
             returnDate: $returnDate
         );
@@ -44,6 +46,7 @@ class RequestFlightActionTest extends TestCase
 
         $requestFlightInput = new RequestFlightActionInput(
             userId: $user->id,
+            destination: 'Belo Horizonte - MG',
             departuneDate: $departuneDate,
             returnDate: $returnDate
         );
@@ -61,6 +64,7 @@ class RequestFlightActionTest extends TestCase
 
         $requestFlightInput = new RequestFlightActionInput(
             userId: $user->id,
+            destination: 'Belo Horizonte - MG',
             departuneDate: $departuneDate,
             returnDate: $returnDate
         );
@@ -77,6 +81,7 @@ class RequestFlightActionTest extends TestCase
                 'id' => $output->id,
                 'user_id' => $user->id,
                 'status' => 'REQUESTED',
+                'destination' => 'Belo Horizonte - MG'
             ]
         );
 

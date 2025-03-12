@@ -14,9 +14,9 @@ class RequestFlightResourceTest extends TestCase
      */
     public function test_validate_fields(): void
     {
-
         $resource = new RequestFlightResource(
             flightId: 100,
+            destination: 'Belo Horizonte - MG',
             status: FlightStatusEnum::REQUESTED->value,
             departuneDate: '2025-01-10T23:00:00',
             returnDate: '2025-01-12T23:00:00',
@@ -26,6 +26,7 @@ class RequestFlightResourceTest extends TestCase
             expected: [
                 'id' => 100,
                 'status' => 'REQUESTED',
+                'destination' => 'Belo Horizonte - MG',
                 'departune_date' => '2025-01-10T23:00:00',
                 'return_date' => '2025-01-12T23:00:00'
             ],

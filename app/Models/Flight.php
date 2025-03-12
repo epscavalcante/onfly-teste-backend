@@ -20,6 +20,7 @@ class Flight extends Model
     protected $fillable = [
         'user_id',
         'status',
+        'destination',
         'departune_date',
         'return_date',
     ];

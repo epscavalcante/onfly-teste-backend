@@ -22,8 +22,9 @@ class StoreFlightRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'destination' => 'required|string',
             'departune_date' => 'required|date',
-            'return_date' => 'required|date', // tem que ser igual ou depois de departune
+            'return_date' => 'required|date',
         ];
     }
 }
