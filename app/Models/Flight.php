@@ -34,6 +34,16 @@ class Flight extends Model
         'status' => FlightStatusEnum::REQUESTED->value,
     ];
 
+    public function isApproved(): bool
+    {
+        return $this->status === FlightStatusEnum::APPROVED->value;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === FlightStatusEnum::CANCELED->value;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

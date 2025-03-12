@@ -1,7 +1,7 @@
 <x-mail::message>
 # 👋 Hello, {{ $userName }}!
 
-Your flight is **awaiting approval** at this time.
+Your flight was **approved** at this time.
 
 <x-mail::panel>
 **Flight data:** <br>

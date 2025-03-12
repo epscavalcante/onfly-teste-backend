@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ApproveFlight\ApproveFlightAction;
+use App\Actions\ApproveFlight\ApproveFlightActionInput;
 use App\Actions\RequestFlight\RequestFlightAction;
 use App\Actions\RequestFlight\RequestFlightActionInput;
 use App\Http\Requests\StoreFlightRequest;
 use App\Http\Resources\RequestFlightResource;
 use DateTime;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class FlightController extends Controller
@@ -29,5 +32,17 @@ class FlightController extends Controller
             departuneDate: $requestFlightOutput->departuneDate,
             returnDate: $requestFlightOutput->returnDate
         );
+    }
+
+    public function approve(int $flightId): Response
+    {
+        $approveFlightInput = new ApproveFlightActionInput(
+            flightId: $flightId,
+            userApproverId: Auth::id()
+        );
+
+        ApproveFlightAction::handle($approveFlightInput);
+
+        return response()->noContent();
     }
 }

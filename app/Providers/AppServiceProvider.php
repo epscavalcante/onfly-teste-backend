@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Flight;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define(
+            ability: 'approve-flight',
+            callback: fn(User $user, Flight $flight) => $user->id !== $flight->user_id
+        );
     }
 }
