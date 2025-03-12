@@ -16,4 +16,5 @@ Route::controller(FlightController::class)
     ->name('flights.')
     ->group(function () {
         Route::post('/', 'store')->name('store');
+        Route::post('/{flight_id}', 'approve')->name('approve');
     });

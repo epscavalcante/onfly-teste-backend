@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\CannotApproveFlightException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,5 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (UnauthorizedException $e) {
             abort(Response::HTTP_UNAUTHORIZED, $e->getMessage());
+        });
+
+        $exceptions->report(function (CannotApproveFlightException $e) {
+            abort(Response::HTTP_FORBIDDEN, $e->getMessage());
         });
     })->create();

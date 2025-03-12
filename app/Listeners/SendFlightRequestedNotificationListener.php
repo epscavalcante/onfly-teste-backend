@@ -4,19 +4,9 @@ namespace App\Listeners;
 
 use App\Events\FlightRequestedEvent;
 use App\Notifications\FlightRequestedNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendFlightRequestedNotificationListener
 {
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      */
