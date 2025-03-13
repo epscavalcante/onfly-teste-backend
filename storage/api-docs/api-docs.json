@@ -1,0 +1,498 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "OnFly - Api docs",
+        "contact": {
+            "name": "Eduardo Cavalcante",
+            "url": "https://epscavalcante.dev",
+            "email": "eduardo.ps.cavalcante@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/flights": {
+            "get": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "List of flights",
+                "operationId": "f974b95ce0d9e1044299e7f31da84b5d",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "requested": {
+                                "summary": "Example REQUESTED status",
+                                "value": "REQUESTED"
+                            },
+                            "approved": {
+                                "summary": "Example APPROVED status",
+                                "value": "APPROVED"
+                            },
+                            "cancelled": {
+                                "summary": "Example CANCELLED status",
+                                "value": "CANCELLED"
+                            }
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "2025-01-01": {
+                                "summary": "Example 2025-01-01 date",
+                                "value": "2025-01-01"
+                            }
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "2025-12-31": {
+                                "summary": "Example 2025-12-31 date",
+                                "value": "2025-12-31"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListFlightResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Request flight",
+                "operationId": "429a30d2ba9b4c386fd85eefd684225e",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreFlightRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RequestFlightResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/LoginRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                }
+            }
+        },
+        "/api/flights/{id}/approve": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Approve flight",
+                "operationId": "79b158287dc4605a48fc73da6c5f44e9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "id": {
+                                "summary": "Some int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/flights/{id}/cancel": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Cancel flight",
+                "operationId": "3471a5fbd2874c9113d4970e55fd9ccd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "id": {
+                                "summary": "Some int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/flights/{id}": {
+            "get": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Flight detail",
+                "operationId": "af76efbe019d67f74e01443a4d5f3cec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "id": {
+                                "summary": "Some int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetFlightDetailResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "GetFlightDetailResource": {
+                "title": "GetFlightDetailResource",
+                "description": "Flight detail resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "APPROVED"
+                    },
+                    "departune_date": {
+                        "type": "string",
+                        "example": "2025-01-01T12:00:00"
+                    },
+                    "return_date": {
+                        "type": "string",
+                        "example": "2025-01-01T12:00:00"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2025-01-01T12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2025-01-01T12:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "ListFlightResource": {
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "status": {
+                                    "type": "sting",
+                                    "example": "APPROVED"
+                                },
+                                "destination": {
+                                    "type": "sting",
+                                    "example": "Belo Horizonte - MG"
+                                },
+                                "departune_date": {
+                                    "type": "sting",
+                                    "example": "2025-01-01T10:30:00"
+                                },
+                                "return_date": {
+                                    "type": "sting",
+                                    "example": "2025-01-02T19:30:00"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResource": {
+                "title": "LoginResource",
+                "description": "Login resource",
+                "properties": {
+                    "access_token": {
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzQxODcyMTAxLCJleHAiOjE3NDE4NzU3MDEsIm5iZiI6MTc0MTg3MjEwMSwianRpIjoiNmNZT0lsYkV6aEFURER4VyIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.FlFGl3okLHWb4HTjRKBimhJaoobDpQ9jJz21F_mpMp8"
+                    },
+                    "token_type": {
+                        "type": "string",
+                        "example": "Bearer"
+                    },
+                    "expires_in": {
+                        "type": "integer",
+                        "example": "3600"
+                    }
+                },
+                "type": "object"
+            },
+            "RequestFlightResource": {
+                "title": "RequestFlightResource",
+                "description": "Request flight resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "APPROVED"
+                    },
+                    "departune_date": {
+                        "type": "string",
+                        "example": "2025-01-01T12:00:00"
+                    },
+                    "return_date": {
+                        "type": "string",
+                        "example": "2025-01-01T12:00:00"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "LoginRequest": {
+                "description": "Body to login",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "john.doe@email.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "password"
+                                }
+                            },
+                            "type": "object",
+                            "example": {
+                                "email": "user1@example.com",
+                                "password": "password"
+                            }
+                        }
+                    }
+                }
+            },
+            "StoreFlightRequest": {
+                "description": "Body to request a flight",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "destination": {
+                                    "type": "string",
+                                    "example": "Belo Horizonte - MG"
+                                },
+                                "departune_date": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-01-01T23:00:00"
+                                },
+                                "return_date": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-01-01T23:00:00"
+                                }
+                            },
+                            "type": "object",
+                            "example": {
+                                "destination": "Belo Horizonte - MG",
+                                "departune_date": "2025-01-01T23:00:00",
+                                "return_date": "2025-01-02T13:00:00"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Flights",
+            "description": "Flights"
+        }
+    ]
+}

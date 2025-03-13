@@ -4,6 +4,33 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\RequestBody(
+ *     request="StoreFlightRequest",
+ *     description="Body to request a flight",
+ *     @OA\MediaType(
+ *         mediaType="application/json",
+ *         @OA\Schema(
+ *             example={"destination": "Belo Horizonte - MG", "departune_date": "2025-01-01T23:00:00", "return_date": "2025-01-02T13:00:00"},
+ *             @OA\Property(
+ *                 property="destination",
+ *                 type="string",
+ *                 example="Belo Horizonte - MG"
+ *             ),
+ *              @OA\Property(
+ *                 property="departune_date",
+ *                 type="date",
+ *                 example="2025-01-01T23:00:00"
+ *             ),
+ *             @OA\Property(
+ *                 property="return_date",
+ *                 type="date",
+ *                 example="2025-01-01T23:00:00"
+ *             ),
+ *         )
+ *     )
+ * ),
+ */
 class StoreFlightRequest extends FormRequest
 {
     /**
