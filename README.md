@@ -90,4 +90,4 @@ MAIL_FROM_NAME="${APP_NAME}"
 php artisan serve --host 0.0.0.0
 ```
 
-10. A aplicação agora deve estar rodando Acesse http://localhost:8000 deve conseguir ver a página inicial.
+10. A aplicação agora deve estar rodando. Acesse a [página inicial](http://localhost:8000) ou a [Documentação da API](http://localhost:8000/api/docs), desenvolvida utilizando Swagger e Open API.
