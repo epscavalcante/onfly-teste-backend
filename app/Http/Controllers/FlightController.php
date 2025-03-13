@@ -21,8 +21,27 @@ use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @OA\PathItem(path="/api/flights")
+ */
 class FlightController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/flights",
+     *     tags={"Flights"},
+     *     summary="Request flight",
+     *     security={{"bearer_token":{}}},
+     *     @OA\RequestBody(ref="#/components/requestBodies/StoreFlightRequest"),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(ref="#/components/schemas/RequestFlightResource"),
+     *     ),
+     *     @OA\Response(response="401", description="Unauthorized"),
+     *     @OA\Response(response="422", description="Unprocessable Content"),
+     * )
+     */
     public function store(StoreFlightRequest $request): RequestFlightResource
     {
         $requestFlightInput = new RequestFlightActionInput(
@@ -43,6 +62,26 @@ class FlightController extends Controller
         );
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/flights/{id}/approve",
+     *     tags={"Flights"},
+     *     summary="Approve flight",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Parameter(
+     *         description="id",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="id", value="1", summary="Some int value."),
+     *     ),
+     *     @OA\Response(response="204", description="No Content"),
+     *     @OA\Response(response="401", description="Unauthorized"),
+     *     @OA\Response(response="403", description="Forbidden",),
+     *     @OA\Response(response="422", description="Unprocessable Content"),
+     * )
+     */
     public function approve(int $flightId): Response
     {
         $approveFlightInput = new ApproveFlightActionInput(
@@ -55,7 +94,26 @@ class FlightController extends Controller
         return response()->noContent();
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/flights/{id}/cancel",
+     *     tags={"Flights"},
+     *     summary="Cancel flight",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Parameter(
+     *         description="id",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="id", value="1", summary="Some int value."),
+     *     ),
+     *     @OA\Response(response="204", description="No Content"),
+     *     @OA\Response(response="401", description="Unauthorized"),
+     *     @OA\Response(response="403", description="Forbidden",),
+     *     @OA\Response(response="422", description="Unprocessable Content"),
+     * )
+     */
     public function cancel(int $flightId): Response
     {
         $cancelFlightInput = new CancelFlightActionInput(
@@ -68,6 +126,30 @@ class FlightController extends Controller
         return response()->noContent();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/flights/{id}",
+     *     tags={"Flights"},
+     *     summary="Flight detail",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Parameter(
+     *         description="id",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="id", value="1", summary="Some int value."),
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="OK",
+     *          @OA\JsonContent(ref="#/components/schemas/GetFlightDetailResource"),
+     *     ),
+     *     @OA\Response(response="401", description="Unauthorized"),
+     *     @OA\Response(response="403", description="Forbidden",),
+     *     @OA\Response(response="404", description="Not Found"),
+     * )
+     */
     public function detail(int $flightId): GetFlightDetailResource
     {
         $flightDetailInput = new GetFlightDetailActionInput(
@@ -88,6 +170,45 @@ class FlightController extends Controller
         );
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/flights",
+     *     tags={"Flights"},
+     *     summary="List of flights",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Parameter(
+     *         in="query",
+     *         name="status",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="requested", value="REQUESTED", summary="Example REQUESTED status"),
+     *         @OA\Examples(example="approved", value="APPROVED", summary="Example APPROVED status"),
+     *         @OA\Examples(example="cancelled", value="CANCELLED", summary="Example CANCELLED status")
+     *     ),
+     *     @OA\Parameter(
+     *         in="query",
+     *         name="start_date",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="2025-01-01", value="2025-01-01", summary="Example 2025-01-01 date"),
+     *     ),
+     *     @OA\Parameter(
+     *         in="query",
+     *         name="end_date",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="2025-12-31", value="2025-12-31", summary="Example 2025-12-31 date"),
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="OK",
+     *          @OA\JsonContent(ref="#/components/schemas/ListFlightResource"),
+     *     ),
+     *     @OA\Response(response="401", description="Unauthorized"),
+     *     @OA\Response(response="403", description="Forbidden",),
+     *     @OA\Response(response="422", description="Unprocessable Content"),
+     * )
+     */
     public function list(ListFlightRequest $request): ListFlightResource
     {
         $input = new ListFlightsActionInput(

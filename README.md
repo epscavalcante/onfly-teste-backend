@@ -1,66 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://onfly.com.br" target="_blank"><img src="https://imgur.com/uuNxqx8.png" width="400" alt="OnFly Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Sobre a aplicação
 
-## About Laravel
+Você precisa desenvolver um microsserviço em Laravel para gerenciar pedidos de viagem corporativa. O microsserviço deve expor uma API REST para as seguintes operações:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Criar um pedido de viagem: Um pedido deve incluir o ID do pedido, o nome do solicitante, o destino, a data de ida, a data de volta e o status (solicitado, aprovado, cancelado).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Atualizar o status de um pedido de viagem: Possibilitar a atualização do status para "aprovado" ou "cancelado". (nota: o usuário que fez o pedido não pode alterar o status do mesmo)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Consultar um pedido de viagem: Retornar as informações detalhadas de um pedido de viagem com base no ID fornecido.
 
-## Learning Laravel
+- Listar todos os pedidos de viagem: Retornar todos os pedidos de viagem cadastrados, com a opção de filtrar por status.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Cancelar pedido de viagem após aprovação: Implementar uma lógica de negócios que verifique se é possível cancelar um pedido já aprovado 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Filtragem por período e destino: Adicionar filtros para listar pedidos de viagem por período de tempo (ex: pedidos feitos ou com datas de viagem dentro de uma faixa de datas) e/ou por destino.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Notificação de aprovação ou cancelamento: Sempre que um pedido for aprovado ou cancelado, uma notificação deve ser enviada para o usuário que solicitou o pedido.
 
-## Laravel Sponsors
+## 🔧 Ferramentas utilizadas
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Linguagem de programação PHP e o framework Laravel
+- Banco de dados: MySql e SQLite
+- PHPUnit para execução dos testes
+- Swagger and Open API para documentar os endpoints
+- Docker e Docker compose para fazer a configuração do ambiente de desenvolvimento:
+    - PHP 8.4, 
+    - MySql 8
+    - Servidor SMTP ([Mailpit](https://github.com/axllent/mailpit))
 
-### Premium Partners
+## ⚡️ Executar a aplicação
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Ao colocar a aplicação para rodar, é necessário que as portas 8000, 3306 e 8025 estejam liberadas.
 
-## Contributing
+Na porta 8000 será disponibilizado o servidor WEB da API. Na 3306 temos o MySQL servidor de Banco de dados relacional e na porta 8025 está o frontend do serviço SMTP.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**É necessário ter o docker e docker compose instalado na sua máquina**. Caso não tenha instaldo, [acesse a documentação oficial](https://docs.docker.com/engine/install/) e faça a instalação antes de continuar os passos.
 
-## Code of Conduct
+1. Clone este projeto:
+- SSH: ```git clone git@github.com:epscavalcante/onfly-teste-backend.git```
+- HTTPS: ```git clone https://github.com/epscavalcante/onfly-teste-backend.git```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Acesse o diretório .docker/local
+```
+cd .docker/local
+```
 
-## Security Vulnerabilities
+3. Iniciar os containers:
+```
+docker compose up -d --build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Entrar no container do app:
+```
+docker compose exec app bash
+```
 
-## License
+5. Crie o arquivo .env
+```
+cp .env.example .env
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Instale as dependências 
+```
+composer install
+```
+
+7. Definir o APP_KEY
+```
+php artisan key:generate
+```
+
+8. Definir o JWT_SECRET
+```
+php artisan jwt:secret --force
+```
+
+9. Abra o arquivo .env e substitua as variaveis abaixo:
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=onfly
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+10. Depois de configurado as variáveis de ambiente do DB, executar as migrations:
+```
+php artisan migrate:fresh --seed
+```
+
+11. [Optional] Configurar as variáveis de ambiente do SMTP. Esse passo é opcional por padrão, o driver de email é utilizado é LOG ele vai gerar o email em formato texto no arquivo em storage/logs/laravel.log. Uma das ferramentas configuradas no ambiente de desenvolvimento é um servidor SMTP voltado para desenvolvimento, para usar este, configure as seguintes variáveis de ambiente no arquivo .env:
+```
+MAIL_MAILER=smtp
+MAIL_SCHEME=null
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="notifications@onfly.teste.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+12. Com o banco de dados e servidor SMTP configurados, vamos levantar o servidor WEB:
+```
+php artisan serve --host 0.0.0.0
+```
+
+13. A aplicação agora deve estar rodando. Acesse a [página inicial](http://localhost:8000) ou a [Documentação da API](http://localhost:8000/api/docs), desenvolvida utilizando Swagger e Open API.
+
+
+## 🛠 Detalhes
+
+- Ao rodar os comandos do docker e docker compose, talvez seja necessário executá-los adicionando 'sudo' no inicio:
+```
+sudo docker compose ...
+```
+
+- Se optar por usar o driver SMTP do mailpit, [acesse o frontend](http://localhost:8025) dele para visualizar os emails
+

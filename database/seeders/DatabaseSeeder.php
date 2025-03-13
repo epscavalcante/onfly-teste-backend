@@ -14,6 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory()->create([
+            'name' => 'Usuário de teste 1',
+            'email' => 'user1@example.com'
+        ]);
+        User::factory()->create([
+            'name' => 'Usuário de teste 2',
+            'email' => 'user2@example.com'
+        ]);
+
         User::factory(10)
             ->has(Flight::factory()->requested()->count(rand(1, 3)))
             ->has(Flight::factory()->approved()->count(rand(3, 5)))

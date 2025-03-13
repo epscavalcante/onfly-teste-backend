@@ -1,0 +1,40 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: onfly-teste-backend-app
+    volumes:
+      - ../../:/var/www
+    ports:
+      - "8000:8000"
+
+  mysql:
+    image: mysql:8.0.33
+    container_name: onfly-teste-backend-mysql
+    environment:
+      - MYSQL_DATABASE=onfly
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  mailpit:
+    image: axllent/mailpit:v1.23.1
+    container_name: onfly-teste-backend-mailpit
+    restart: unless-stopped
+    volumes:
+      - ./mailpit/data:/data
+    ports:
+      - 8025:8025
+      - 1025:1025
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
