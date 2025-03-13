@@ -31,6 +31,10 @@ Você precisa desenvolver um microsserviço em Laravel para gerenciar pedidos de
 
 ## ⚡️ Executar a aplicação
 
+Ao colocar a aplicação para rodar, é necessário que as portas 8000, 3306 e 8025 estejam liberadas.
+
+Na porta 8000 será disponibilizado o servidor WEB da API. Na 3306 temos o MySQL servidor de Banco de dados relacional e na porta 8025 está o frontend do serviço SMTP.
+
 **É necessário ter o docker e docker compose instalado na sua máquina**. Caso não tenha instaldo, [acesse a documentação oficial](https://docs.docker.com/engine/install/) e faça a instalação antes de continuar os passos.
 
 1. Clone este projeto:
@@ -105,3 +109,14 @@ php artisan serve --host 0.0.0.0
 ```
 
 13. A aplicação agora deve estar rodando. Acesse a [página inicial](http://localhost:8000) ou a [Documentação da API](http://localhost:8000/api/docs), desenvolvida utilizando Swagger e Open API.
+
+
+## 🛠 Detalhes
+
+- Ao rodar os comandos do docker e docker compose, talvez seja necessário executá-los adicionando 'sudo' no inicio:
+```
+sudo docker compose ...
+```
+
+- Se optar por usar o driver SMTP do mailpit, [acesse o frontend](http://localhost:8025) dele para visualizar os emails
+
