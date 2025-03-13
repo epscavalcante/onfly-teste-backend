@@ -35,6 +35,12 @@ class FlightControllerTest extends TestCase
         $response->assertUnauthorized();
     }
 
+    public function test_list_flights_returns_unauthorized_response(): void
+    {
+        $response = $this->getJson(route('flights.list'));
+        $response->assertUnauthorized();
+    }
+
     public function test_request_flight_returns_unprocessable_entity_response(): void
     {
         $user = User::factory()->create();
@@ -150,5 +156,33 @@ class FlightControllerTest extends TestCase
                 uri: route('flights.detail', $flight->id),
             );
         $response->assertSuccessful();
+    }
+
+    public function test_list_flightsl_returns_successfull_response_with_empty_items(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)
+            ->getJson(
+                uri: route('flights.list'),
+            );
+        $response->assertSuccessful();
+    }
+
+    public function test_list_flightsl_returns_successfull_response_with_items(): void
+    {
+        $user = User::factory()
+            ->has(Flight::factory()->requested()->count(4))
+            ->create();
+
+        User::factory(5)
+            ->has(Flight::factory()->requested())
+            ->create();
+
+        $response = $this->actingAs($user)
+            ->getJson(
+                uri: route('flights.list'),
+            );
+        $response->assertSuccessful()
+            ->assertJsonCount(4, 'data');
     }
 }
