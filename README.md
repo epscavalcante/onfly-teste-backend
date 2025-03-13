@@ -34,8 +34,8 @@ Você precisa desenvolver um microsserviço em Laravel para gerenciar pedidos de
 **É necessário ter o docker e docker compose instalado na sua máquina**. Caso não tenha instaldo, [acesse a documentação oficial](https://docs.docker.com/engine/install/) e faça a instalação antes de continuar os passos.
 
 1. Clone este projeto:
-SSH: ```git clone git@github.com:epscavalcante/onfly-teste-backend.git```
-HTTPS: ```git clone https://github.com/epscavalcante/onfly-teste-backend.git```
+- SSH: ```git clone git@github.com:epscavalcante/onfly-teste-backend.git```
+- HTTPS: ```git clone https://github.com/epscavalcante/onfly-teste-backend.git```
 
 2. Acesse o diretório .docker/local
 ```
