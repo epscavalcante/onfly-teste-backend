@@ -23,6 +23,7 @@ Você precisa desenvolver um microsserviço em Laravel para gerenciar pedidos de
 - Linguagem de programação PHP e o framework Laravel
 - Banco de dados: MySql e SQLite
 - PHPUnit para execução dos testes
+- Swagger and Open API para documentar os endpoints
 - Docker e Docker compose para fazer a configuração do ambiente de desenvolvimento:
     - PHP 8.4, 
     - MySql 8
@@ -35,32 +36,43 @@ Você precisa desenvolver um microsserviço em Laravel para gerenciar pedidos de
 1. Clone este projeto:
 SSH: ```git clone git@github.com:epscavalcante/onfly-teste-backend.git```
 HTTPS: ```git clone https://github.com/epscavalcante/onfly-teste-backend.git```
+
 2. Acesse o diretório .docker/local
+```
+cd .docker/local
+```
+
 3. Iniciar os containers:
 ```
 docker compose up -d --build
 ```
-3. Entrar no container do app:
+
+4. Entrar no container do app:
 ```
 docker compose exec app bash
 ```
-4. Crie o arquivo .env
+
+5. Crie o arquivo .env
 ```
 cp .env.example .env
 ```
-4. Instale as dependências 
+
+6. Instale as dependências 
 ```
 composer install
 ```
-5. Definir o APP_KEY
+
+7. Definir o APP_KEY
 ```
 php artisan key:generate
 ```
-5. Definir o JWT_SECRET
+
+8. Definir o JWT_SECRET
 ```
 php artisan jwt:secret --force
 ```
-6. Abra o arquivo .env e substitua as variaveis abaixo:
+
+9. Abra o arquivo .env e substitua as variaveis abaixo:
 ```
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -69,11 +81,13 @@ DB_DATABASE=onfly
 DB_USERNAME=root
 DB_PASSWORD=root
 ```
-7. Depois de configurado as variáveis de ambiente do DB, executar as migrations:
+
+10. Depois de configurado as variáveis de ambiente do DB, executar as migrations:
 ```
 php artisan migrate:fresh --seed
 ```
-8. [Optional] Configurar as variáveis de ambiente do SMTP. Esse passo é opcional por padrão, o driver de email é utilizado é LOG ele vai gerar o email em formato texto no arquivo em storage/logs/laravel.log. Uma das ferramentas configuradas no ambiente de desenvolvimento é um servidor SMTP voltado para desenvolvimento, para usar este, configure as seguintes variáveis de ambiente no arquivo .env:
+
+11. [Optional] Configurar as variáveis de ambiente do SMTP. Esse passo é opcional por padrão, o driver de email é utilizado é LOG ele vai gerar o email em formato texto no arquivo em storage/logs/laravel.log. Uma das ferramentas configuradas no ambiente de desenvolvimento é um servidor SMTP voltado para desenvolvimento, para usar este, configure as seguintes variáveis de ambiente no arquivo .env:
 ```
 MAIL_MAILER=smtp
 MAIL_SCHEME=null
@@ -85,9 +99,9 @@ MAIL_FROM_ADDRESS="notifications@onfly.teste.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-9. Com o banco de dados e servidor SMTP configurados, vamos levantar o servidor WEB:
+12. Com o banco de dados e servidor SMTP configurados, vamos levantar o servidor WEB:
 ```
 php artisan serve --host 0.0.0.0
 ```
 
-10. A aplicação agora deve estar rodando. Acesse a [página inicial](http://localhost:8000) ou a [Documentação da API](http://localhost:8000/api/docs), desenvolvida utilizando Swagger e Open API.
+13. A aplicação agora deve estar rodando. Acesse a [página inicial](http://localhost:8000) ou a [Documentação da API](http://localhost:8000/api/docs), desenvolvida utilizando Swagger e Open API.
