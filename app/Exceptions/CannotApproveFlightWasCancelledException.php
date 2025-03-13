@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class CannotApproveFlightWasCancelledException extends Exception
+class CannotApproveFlightWasCancelledException extends CannotApproveFlightException
 {
     public function __construct()
     {
