@@ -183,6 +183,6 @@ class FlightControllerTest extends TestCase
                 uri: route('flights.list'),
             );
         $response->assertSuccessful()
-            ->assertJsonCount(4, 'data');
+            ->assertJsonCount(4, 'items');
     }
 }
