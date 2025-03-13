@@ -8,10 +8,14 @@ use App\Actions\CancelFlight\CancelFlightAction;
 use App\Actions\CancelFlight\CancelFlightActionInput;
 use App\Actions\GetFlightDetail\GetFlightDetailAction;
 use App\Actions\GetFlightDetail\GetFlightDetailActionInput;
+use App\Actions\ListFLights\ListFlightsAction;
+use App\Actions\ListFLights\ListFlightsActionInput;
 use App\Actions\RequestFlight\RequestFlightAction;
 use App\Actions\RequestFlight\RequestFlightActionInput;
+use App\Http\Requests\ListFlightRequest;
 use App\Http\Requests\StoreFlightRequest;
 use App\Http\Resources\GetFlightDetailResource;
+use App\Http\Resources\ListFlightResource;
 use App\Http\Resources\RequestFlightResource;
 use DateTime;
 use Illuminate\Http\Response;
@@ -82,5 +86,18 @@ class FlightController extends Controller
             createdAt: $flightDetailOutput->createdAt,
             updatedAt: $flightDetailOutput->updatedAt,
         );
+    }
+
+    public function list(ListFlightRequest $request): ListFlightResource
+    {
+        $input = new ListFlightsActionInput(
+            userId: Auth::id(),
+            status: $request->validated('status', null),
+            startDate: $request->validated('start_date', null),
+            endDate: $request->validated('end_date', null),
+        );
+        $output = ListFlightsAction::handle($input);
+
+        return new ListFlightResource($output->items);
     }
 }
