@@ -76,6 +76,18 @@ php artisan key:generate
 php artisan jwt:secret --force
 ```
 
+Neste momento, estamos prontos para rodar os testes de unidade e de integração da nossa aplicação. Para isso execute os comandos a seguir:
+```
+php artisan test
+```
+
+adicione *--coverage* no final do comando para exibir a covertura de testes.
+```
+php artisan test --coverage
+```
+
+Na sequência iremos configurar o banco de dados e opcionalmente o servidor SMTP mailpit, para então rodar a aplicação WEB.
+
 9. Abra o arquivo .env e substitua as variaveis abaixo:
 ```
 DB_CONNECTION=mysql
